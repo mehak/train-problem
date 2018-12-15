@@ -47,5 +47,9 @@
             "Two trains are racing towards each other.  Train a is going~%~
             ~a kph.  Train b is going ~a kph.  When each train reached~%~
             those velocities they were ~a kilometers apart.  They will~%~
-            crash into each other after ~a hours." ta tb tc
-            (rational-to-mixed (train-pass ta tb tc)))))
+            crash into each other after ~a hours."
+            ta
+            tb
+            tc
+            (rational-to-mixed
+             (train-pass ta tb tc)))))
