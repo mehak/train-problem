@@ -10,10 +10,16 @@
   (/ distance
      (+ a-speed b-speed)))
 
+(defun lower-clamp (number min)
+  "If number is less than min, reutrn min otherwise return number"
+  (if (and number (> number min))
+      number
+      min))
+
 (defun parse-input (input)
   "wrapper around parse-integer with junk-allowed set to t"
   (if input
-      (parse-integer input :junk-allowed t)
+      (lower-clamp (parse-integer input :junk-allowed t) 1)
       nil))
 
 (defun round-if-rational (number)
