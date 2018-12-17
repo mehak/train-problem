@@ -22,12 +22,6 @@
       (lower-clamp (parse-integer input :junk-allowed t) 1)
       nil))
 
-(defun round-if-rational (number)
-  "Round number if it is rational"
-  (if (rationalp number)
-      (round number)
-      number))
-
 (defun rational-to-mixed (number)
   "If number is rational, convert it to a mixed numeral (fraction/number)
    as a string"
