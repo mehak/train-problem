@@ -32,23 +32,37 @@
 
 
 ;;; Hunchentoot setup
-(hunchentoot:start (make-instance 'hunchentoot:easy-acceptor :port 4242))
+(start (make-instance 'easy-acceptor :port 4242))
 
-(hunchentoot:define-easy-handler (trains :uri "/") (a b c)
-  (let ((ta (or (parse-input a)
-                25))
-        (tb (or (parse-input b)
-                25))
-        (tc (or (parse-input c)
-                100)))
-    (setf (hunchentoot:content-type*) "text/plain")
-    (format nil
-            "Two trains are racing towards each other.  Train a is going~%~
-            ~a kph.  Train b is going ~a kph.  When each train reached~%~
-            those velocities they were ~a kilometers apart.  They will~%~
-            crash into each other after ~a hours."
-            ta
-            tb
-            tc
-            (rational-to-mixed
-             (train-pass ta tb tc)))))
+(define-easy-handler (trains :uri "/") (a b c)
+  (let* ((ta (or (parse-input a)
+                 25))
+         (tb (or (parse-input b)
+                 ta))
+         (tc (or (parse-input c)
+                 (+ ta tb))))
+    (setf (content-type*) "text/html; charset=utf-8")
+    (with-html-output-to-string (*standard-output* nil :prologue t)
+      (:html
+       (:head (:title "Train Problem"))
+       (:body
+        (:form
+         :method :post
+         "train a speed in kph: "
+         (:input :type :text
+                 :name "a" :value ta)
+         (:br)
+         "train b speed in kph: "
+         (:input :type :text
+                 :name "b" :value tb)
+         (:br)
+         "distance between the trains in km: "
+         (:input :type :text
+                 :name "c" :value tc)
+         (:br)
+         (:input :type "submit"))
+        (:p
+         (str (format nil
+                      "The trains will pass each other after ~a hour~:p."
+                      (rational-to-mixed
+                       (train-pass ta tb tc))))))))))
