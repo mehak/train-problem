@@ -1,6 +1,8 @@
-(ql:quickload :hunchentoot)
-(ql:quickload :computable-reals)
-(use-package :computable-reals)
+(defpackage :bin.w1n.train
+  (:use :common-lisp :hunchentoot :cl-who)
+  (:import-from :alexandria :clamp))
+(in-package :bin.w1n.train)
+
 
 ;;; Defun functions for use in hunchentoot
 (defun train-pass (a-speed b-speed distance)
